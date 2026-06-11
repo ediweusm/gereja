@@ -15,7 +15,7 @@ class ListEvents extends ListRecords
         return [
             Actions\CreateAction::make(),
             Actions\Action::make('printByRange')
-                ->label('Cetak Jadwal per Periode')
+                ->label('Cetak Jadwal')
                 ->icon('heroicon-o-printer')
                 ->color('success')
                 ->form([

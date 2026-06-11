@@ -132,4 +132,32 @@ class PastoralReportController extends Controller
 
         return view('reports.mutations-by-range', compact('mutations', 'startDate', 'endDate', 'profile'));
     }
+
+    public function printMembersList(Request $request)
+    {
+        $statusId = $request->query('membership_status_id');
+        $gender = $request->query('gender');
+
+        $members = Member::with(['family', 'familyPosition', 'membershipStatus'])
+            ->when($statusId, function ($query, $statusId) {
+                return $query->where('membership_status_id', $statusId);
+            })
+            ->when($gender, function ($query, $gender) {
+                return $query->where('gender', $gender);
+            })
+            ->orderBy('first_name', 'asc')
+            ->get();
+
+        $profile = ChurchProfile::first() ?? new ChurchProfile([
+            'gmit_name' => 'Majelis Sinode GMIT',
+            'church_name' => 'Jemaat Sion Oepura',
+            'address' => 'Jl. H.R. Koroh, Oepura, Kec. Maulafa, Kota Kupang, Nusa Tenggara Timur',
+            'phone' => '081123456789',
+            'ketua_majelis' => 'Pdt. Sion Oepura, S.Th',
+            'sekretaris' => 'Penatua Sekretaris',
+            'bendahara' => 'Penatua Bendahara'
+        ]);
+
+        return view('reports.members-list', compact('members', 'statusId', 'gender', 'profile'));
+    }
 }

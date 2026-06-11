@@ -126,4 +126,24 @@ class EventServiceTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('reports.admissions-by-range');
     }
+
+    public function test_print_members_requires_authentication()
+    {
+        $response = $this->get(route('reports.members_list'));
+        $response->assertRedirect(route('login'));
+    }
+
+    public function test_authenticated_user_can_access_print_members()
+    {
+        $user = \App\Models\User::create([
+            'name' => 'Test User',
+            'email' => 'test_members@sig.test',
+            'password' => bcrypt('password'),
+            'is_active' => true,
+        ]);
+
+        $response = $this->actingAs($user)->get(route('reports.members_list'));
+        $response->assertStatus(200);
+        $response->assertViewIs('reports.members-list');
+    }
 }

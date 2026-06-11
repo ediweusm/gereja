@@ -16,7 +16,7 @@ class ListMemberMutations extends ListRecords
         return [
             Actions\CreateAction::make(),
             Actions\Action::make('printMutationsByRange')
-                ->label('Cetak Laporan Mutasi')
+                ->label('Cetak')
                 ->icon('heroicon-o-printer')
                 ->color('success')
                 ->form([
