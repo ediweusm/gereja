@@ -41,7 +41,6 @@ Route::get('/admin/reports/underprivileged/print', [PastoralReportController::cl
     ->name('report.underprivileged.print')
     ->middleware(['auth']);
 
-
 Route::get('/admin/events/print-by-range', [\App\Http\Controllers\WartaPrintController::class, 'printByRange'])->name('events.print_by_range')->middleware(['auth']);
 
 Route::get('/admin/reports/admissions/print', [PastoralReportController::class, 'printAdmissionsByRange'])
@@ -59,5 +58,7 @@ Route::get('/admin/reports/members/print', [PastoralReportController::class, 'pr
 Route::get('/admin/reports/journals/print', [JournalPrintController::class, 'printJournalRange'])
     ->name('reports.journal_range')
     ->middleware(['auth']);
+
+Route::get('/reports/assistances',[PastoralReportController::class, 'printAssistancesByRange'])->name('reports.assistances_by_range');
 
 Route::get('/login', function () { return redirect('/admin/login'); })->name('login');

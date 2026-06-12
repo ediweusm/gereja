@@ -28,12 +28,16 @@ class ListMemberContributions extends ListRecords
                         ->required()
                         ->default(now()), // Hari ini
                 ])
-                ->action(function (array $data) {
-                    return redirect()->route('reports.admissions_by_range', [
+                ->action(function (array $data, $livewire) {
+                    // 1. Buat URL target cetaknya
+                    $url = route('reports.admissions_by_range', [
                         'start_date' => $data['start_date'],
-                        'end_date' => $data['end_date']
+                        'end_date'   => $data['end_date'],
                     ]);
-                }),
+
+                    // 2. Perintahkan browser untuk membuka URL tersebut di TAB BARU
+                    $livewire->js("window.open('{$url}', '_blank');");
+                }),        
         ];
     }
 }

@@ -7,9 +7,11 @@ use App\Models\Family;
 use App\Models\ChurchProfile;
 use App\Models\MemberContribution;
 use App\Models\MemberMutation;
+use App\Models\MemberAssistance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+
 
 class PastoralReportController extends Controller
 {
@@ -159,5 +161,32 @@ class PastoralReportController extends Controller
         ]);
 
         return view('reports.members-list', compact('members', 'statusId', 'gender', 'profile'));
+    }
+
+    public function printAssistancesByRange(Request $request)
+    {
+        $startDate = $request->query('start_date');
+        $endDate = $request->query('end_date');
+
+        $start = Carbon::parse($startDate)->startOfDay();
+        $end = Carbon::parse($endDate)->endOfDay();
+
+        // Mengganti 'transaction_date' menjadi 'created_at' agar sesuai dengan struktur database
+        $assistances = MemberAssistance::with(['member', 'journal'])
+            ->whereBetween('created_at', [$start, $end])
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        $profile = ChurchProfile::first() ?? new ChurchProfile([
+            'gmit_name' => 'Majelis Sinode GMIT',
+            'church_name' => 'Jemaat Sion Oepura',
+            'address' => 'Jl. H.R. Koroh, Oepura, Kec. Maulafa, Kota Kupang, Nusa Tenggara Timur',
+            'phone' => '081123456789',
+            'ketua_majelis' => 'Pdt. Sion Oepura, S.Th',
+            'sekretaris' => 'Penatua Sekretaris',
+            'bendahara' => 'Penatua Bendahara'
+        ]);
+
+        return view('reports.assistances-by-range', compact('assistances', 'startDate', 'endDate', 'profile'));
     }
 }
