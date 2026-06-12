@@ -6,12 +6,18 @@ use App\Http\Controllers\FamilyPrintController;
 use App\Http\Controllers\PastoralReportController;
 
 Route::get('/', function () {
-    if (auth()->check()) {
-        return redirect('/admin');
-    }
-
-    return redirect('/admin/login');
+    // Di sinilah nanti kita akan memanggil Controller untuk memuat berita & jadwal
+    // Untuk sementara, kita tampilkan halaman "Etalase" dasar (welcome)
+    return view('welcome'); 
 });
+
+// Route::get('/', function () {
+//     if (auth()->check()) {
+//         return redirect('/admin');
+//     }
+
+//     return redirect('/admin/login');
+// });
 
 Route::get('/admin/journals/{journal}/print', [JournalPrintController::class, 'print'])
     ->name('journal.print')
