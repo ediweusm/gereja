@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Menyembunyikan gambar rusak di dalam artikel agar tidak membuat spasi kosong */
+article img:not([src]),
+article img[src=""] {
+    display: none !important;
+}

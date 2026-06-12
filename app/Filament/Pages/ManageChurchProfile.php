@@ -90,6 +90,18 @@ class ManageChurchProfile extends Page implements HasForms
                             ->directory('logos')
                             ->maxSize(2048)
                             ->nullable(),
+
+                        FileUpload::make('hero_image_path')
+                            ->label('Gambar Latar Beranda (Hero Image)')
+                            ->image()
+                            ->directory('profiles')
+                            ->columnSpanFull(),
+
+                        Textarea::make('hero_quote')
+                            ->label('Kutipan Beranda / Visi Misi')
+                            ->placeholder('Masukkan kalimat sambutan atau visi misi...')
+                            ->rows(3)
+                            ->columnSpanFull(),
                     ])
             ])
             ->statePath('data');

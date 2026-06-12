@@ -85,6 +85,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugin(FilamentShieldPlugin::make())
             ->navigationGroups([
+                'Manajemen Konten',
                 'Administrasi Jemaat',
                 'Manajemen Keuangan',
                 'Pengaturan dan Master Data',
