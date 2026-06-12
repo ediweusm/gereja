@@ -146,4 +146,24 @@ class EventServiceTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('reports.members-list');
     }
+
+    public function test_print_journal_range_requires_authentication()
+    {
+        $response = $this->get(route('reports.journal_range', ['start_date' => '2026-06-01', 'end_date' => '2026-06-30']));
+        $response->assertRedirect(route('login'));
+    }
+
+    public function test_authenticated_user_can_access_print_journal_range()
+    {
+        $user = \App\Models\User::create([
+            'name' => 'Test User',
+            'email' => 'test_journals@sig.test',
+            'password' => bcrypt('password'),
+            'is_active' => true,
+        ]);
+
+        $response = $this->actingAs($user)->get(route('reports.journal_range', ['start_date' => '2026-06-01', 'end_date' => '2026-06-30']));
+        $response->assertStatus(200);
+        $response->assertViewIs('reports.journal-range');
+    }
 }

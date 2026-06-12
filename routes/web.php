@@ -56,4 +56,8 @@ Route::get('/admin/reports/members/print', [PastoralReportController::class, 'pr
     ->name('reports.members_list')
     ->middleware(['auth']);
 
+Route::get('/admin/reports/journals/print', [JournalPrintController::class, 'printJournalRange'])
+    ->name('reports.journal_range')
+    ->middleware(['auth']);
+
 Route::get('/login', function () { return redirect('/admin/login'); })->name('login');

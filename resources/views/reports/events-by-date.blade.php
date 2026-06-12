@@ -7,80 +7,20 @@
     <style>
         @media print {
             @page { size: portrait; margin: 1cm; }
-            body { background: white !important; color: black !important; }
+            body { background: white !important; color: black !important; margin: 0; padding: 0; }
             .print-btn { display: none !important; }
-            table { page-break-inside: avoid; }
+            .event-card { page-break-inside: avoid; }
+            .date-group-header { page-break-after: avoid; }
+            table { page-break-inside: auto; }
+            tr { page-break-inside: avoid; page-break-after: auto; }
         }
-        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; padding: 2rem; max-width: 800px; margin: auto; color: #111827; }
         
-        /* Kop Surat */
-        .kop-table {
-            width: 100%;
-            border-collapse: collapse;
-            border-bottom: 3px double #1f2937;
-            padding-bottom: 8px;
-            margin-bottom: 20px;
-        }
-        .kop-table td {
-            border: none !important;
-            padding: 4px;
-        }
-        .kop-logo {
-            width: 70px;
-            vertical-align: middle;
-            padding-right: 12px;
-        }
-        .kop-logo img {
-            height: 60px;
-            max-width: 70px;
-            display: block;
-        }
-        .kop-text {
-            text-align: center;
-            vertical-align: middle;
-        }
-        .kop-text h1 {
-            font-size: 13pt;
-            font-weight: 700;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .kop-text h2 {
-            font-size: 15pt;
-            font-weight: 800;
-            margin: 3px 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .kop-text p {
-            font-size: 8.5pt;
-            margin: 3px 0 0 0;
-            color: #4b5563;
-        }
-
-        /* Title */
-        .doc-title {
-            text-align: center;
-            margin: 20px 0;
-        }
-        .doc-title h3 {
-            font-size: 14pt;
-            font-weight: 800;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-        .doc-title p {
-            margin: 5px 0 0 0;
-            font-size: 9.5pt;
-            font-weight: 600;
-            color: #4b5563;
-        }
+        /* Menggunakan font Times New Roman */
+        body { font-family: 'Times New Roman', Times, serif; padding: 2rem; max-width: 900px; margin: auto; font-size: 9.5pt; color: #111827; }
 
         .print-btn {
             display: inline-block;
-            background-color: #10b981;
+            background-color: #0284c7;
             color: white;
             padding: 8px 16px;
             font-weight: bold;
@@ -91,56 +31,44 @@
             font-size: 10pt;
             text-transform: uppercase;
         }
-        .print-btn:hover {
-            background-color: #059669;
-        }
+        .print-btn:hover { background-color: #0369a1; }
+
+        /* Title */
+        .doc-title { text-align: center; margin: 20px 0 30px 0; }
+        .doc-title h3 { font-size: 13pt; font-weight: bold; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
 
         /* Event Container */
-        .event-card {
-            margin-bottom: 30px;
-            border: 2px solid #1f2937;
-            padding: 15px;
-            background-color: #fff;
-            page-break-inside: avoid;
-        }
-        .event-header {
-            margin-top: 0;
-            margin-bottom: 10px;
-            border-bottom: 2px solid #1f2937;
-            padding-bottom: 5px;
-            font-size: 12pt;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
-        th { background-color: #f3f4f6; }
-        
-        .empty-state {
-            text-align: center;
-            padding: 30px;
-            border: 2px dashed #9ca3af;
-            color: #4b5563;
-            font-weight: 600;
-            margin-top: 20px;
-        }
+        .event-card { margin-bottom: 25px; border: 1px solid #333; padding: 15px; }
+        .event-header { margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; font-size: 11pt; font-weight: bold; text-transform: uppercase; }
+
+        /* Tables inside event card */
+        table { width: 100%; border-collapse: collapse; margin-top: 5px; }
+        th, td { border: 1px solid #333; padding: 6px 8px; text-align: left; vertical-align: middle; }
+        th { background-color: #f3f4f6; font-weight: bold; font-size: 8.5pt; }
+
+        .empty-state { text-align: center; padding: 30px; border: 1px dashed #333; font-weight: bold; margin-top: 20px; }
+
+        /* Signatures */
+        .signature-section { width: 100%; margin-top: 40px; page-break-inside: avoid; border-collapse: collapse; border: none; }
+        .signature-section td { width: 50%; text-align: center; vertical-align: top; border: none !important; font-size: 9pt; padding: 0; }
+        .sig-space { height: 70px; }
+        .sig-name { font-weight: bold; text-decoration: underline; }
+        .sig-title { font-size: 8.5pt; color: #4b5563; margin-top: 3px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <!-- Kop Surat -->
-    <table class="kop-table">
+    <table style="width: 100%; border-collapse: collapse; border: none; margin-bottom: 20px; border-bottom: 1px double #333; padding-bottom: 20px;">
         <tr>
             @if($profile->logo_path)
-                <td class="kop-logo">
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($profile->logo_path) }}" alt="Logo">
+                <td style="width: 80px; border: none; padding: 0 0 5px 0; vertical-align: middle;">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($profile->logo_path) }}" alt="Logo" style="height: 65px; max-width: 80px; display: block;">
                 </td>
             @endif
-            <td class="kop-text">
-                <h1>{{ $profile->gmit_name }}</h1>
-                <h2>{{ $profile->church_name }}</h2>
-                <p>{{ $profile->address }} | Telp: {{ $profile->phone }}</p>
+            <td style="border: none; padding: 0 0 5px 0; vertical-align: middle; text-align: left;">
+                <h1 style="margin: 0; font-size: 10pt; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">{{ $profile->gmit_name }}</h1>
+                <h2 style="margin: 2px 0 2px; font-size: 14pt; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">{{ $profile->church_name }}</h2>
+                <p style="margin: 2px 0 2px; font-size: 8.5pt; color: #4b5563;">{{ $profile->address }} | Telp: {{ $profile->phone }}</p>
             </td>
         </tr>
     </table>
@@ -149,9 +77,9 @@
         <button class="print-btn" onclick="window.print()">Cetak PDF</button>
     </div>
 
-    <!-- Document Title -->
     <div class="doc-title">
-        <h3>JADWAL PELAYANAN IBADAH PERIODE {{ \Illuminate\Support\Carbon::parse($startDate)->translatedFormat('d F Y') }} s/d {{ \Illuminate\Support\Carbon::parse($endDate)->translatedFormat('d F Y') }}</h3>
+        <h3>JADWAL PELAYANAN IBADAH</h3>
+        <p style="margin-top: 5px; font-size: 9.5pt;">Periode: {{ \Illuminate\Support\Carbon::parse($startDate)->translatedFormat('d F Y') }} s/d {{ \Illuminate\Support\Carbon::parse($endDate)->translatedFormat('d F Y') }}</p>
     </div>
 
     @php $currentDate = null; @endphp
@@ -165,7 +93,7 @@
                 $currentDate = $eventDateString;
             @endphp
             <div class="date-group-header" style="{{ !$isFirstDate ? 'page-break-before: always; margin-top: 30px;' : 'margin-top: 20px;' }}">
-                <h3 style="text-transform: uppercase; font-weight: bold; text-decoration: underline; margin-bottom: 15px; font-size: 13pt; border-bottom: 2px solid #1f2937; padding-bottom: 4px;">
+                <h3 style="text-transform: uppercase; font-weight: bold; margin-bottom: 15px; font-size: 11pt; border-bottom: 2px solid #333; padding-bottom: 4px;">
                     HARI {{ $event->event_date->translatedFormat('l, d F Y') }}
                 </h3>
             </div>
@@ -174,14 +102,14 @@
         <div class="event-card">
             <h4 class="event-header">{{ $event->name }}</h4>
             
-            <table class="detail-table" style="margin-top: 0; margin-bottom: 15px;">
+            <table style="margin-top: 0; margin-bottom: 15px;">
                 <tr>
                     <th style="width: 25%;">Tema</th>
                     <td>{{ $event->theme ?? '-' }}</td>
                 </tr>
                 <tr>
                     <th>Waktu Mulai</th>
-                    <td>{{ \Illuminate\Support\Carbon::parse($event->start_time)->format('H:i') }} WITA</td>
+                    <td>{{ \Illuminate\Support\Carbon::parse($event->start_time)->format('H:i') }} WIB</td>
                 </tr>
                 <tr>
                     <th>Mode & Tempat</th>
@@ -212,12 +140,12 @@
                 @endif
             </table>
 
-            <h5 style="margin: 15px 0 5px 0; font-size: 10pt; text-transform: uppercase; letter-spacing: 0.5px;">Petugas Pelayanan</h5>
+            <h5 style="margin: 15px 0 5px 0; font-size: 9.5pt; text-transform: uppercase; letter-spacing: 0.5px; font-weight: bold;">Petugas Pelayanan</h5>
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 40%;">Peran Pelayanan</th>
-                        <th style="width: 60%;">Nama Petugas</th>
+                        <th style="width: 40%; text-align: center;">Peran Pelayanan</th>
+                        <th style="width: 60%; text-align: center;">Nama Petugas</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -251,9 +179,26 @@
         </div>
     @endforelse
 
+    <table class="signature-section">
+        <tr>
+            <td>
+                <div>Mengetahui,</div>
+                <div class="sig-title">Ketua Majelis Jemaat</div>
+                <div class="sig-space"></div>
+                <div class="sig-name">{{ $profile->ketua_majelis ?? 'Pdt. Nama Ketua, S.Th' }}</div>
+            </td>
+            <td>
+                <div>Semarang, {{ \Illuminate\Support\Carbon::now()->translatedFormat('d F Y') }}</div>
+                <div class="sig-title">Sekretaris Majelis Jemaat</div>
+                <div class="sig-space"></div>
+                <div class="sig-name">{{ $profile->sekretaris ?? 'Penatua Sekretaris' }}</div>
+            </td>
+        </tr>
+    </table>
+
     <script>
-        // Auto print when page loads
         window.onload = function() {
+            // Uncomment baris di bawah ini jika ingin langsung memunculkan dialog print otomatis
             window.print();
         }
     </script>

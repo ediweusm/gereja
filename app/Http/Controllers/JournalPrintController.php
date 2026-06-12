@@ -54,4 +54,28 @@ class JournalPrintController extends Controller
 
         return view('reports.diakonia-receipt', compact('assistance', 'profile'));
     }
+
+    public function printJournalRange(Request $request)
+    {
+        $startDate = $request->query('start_date');
+        $endDate = $request->query('end_date');
+
+        $journals = Journal::with(['items.account'])
+            ->whereBetween('transaction_date', [$startDate, $endDate])
+            ->orderBy('transaction_date', 'asc')
+            ->orderBy('transaction_number', 'asc')
+            ->get();
+
+        $profile = \App\Models\ChurchProfile::first() ?? new \App\Models\ChurchProfile([
+            'gmit_name' => 'Majelis Sinode GMIT',
+            'church_name' => 'Jemaat Sion Oepura',
+            'address' => 'Jl. H.R. Koroh, Oepura, Kec. Maulafa, Kota Kupang, Nusa Tenggara Timur',
+            'phone' => '081123456789',
+            'ketua_majelis' => 'Pdt. Sion Oepura, S.Th',
+            'sekretaris' => 'Penatua Sekretaris',
+            'bendahara' => 'Penatua Bendahara'
+        ]);
+
+        return view('reports.journal-range', compact('journals', 'startDate', 'endDate', 'profile'));
+    }
 }
