@@ -13,224 +13,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kartu Keluarga Jemaat - {{ $family->family_number }}</title>
     <style>
-        @page {
-            size: A4 landscape;
-            margin: 10mm 12mm;
-        }
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            color: #111827;
-            font-size: 9pt;
-            line-height: 1.35;
-            margin: 0;
-            padding: 0;
-            background-color: #ffffff;
-        }
-        .container {
-            border: 2px solid #1f2937;
-            padding: 15px;
-            border-radius: 6px;
-            box-sizing: border-box;
-            min-height: 100%;
-        }
-        /* Kop Surat */
-        .kop-table {
-            width: 100%;
-            border-collapse: collapse;
-            border-bottom: 3px double #1f2937;
-            padding-bottom: 6px;
-            margin-bottom: 12px;
-        }
-        .kop-logo {
-            width: 70px;
-            vertical-align: middle;
-            padding-right: 12px;
-        }
-        .kop-logo img {
-            height: 55px;
-            max-width: 70px;
-            display: block;
-        }
-        .kop-text {
-            text-align: center;
-            vertical-align: middle;
-        }
-        .kop-text h1 {
-            font-size: 12pt;
-            font-weight: 700;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .kop-text h2 {
-            font-size: 14pt;
-            font-weight: 800;
-            margin: 2px 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .kop-text p {
-            font-size: 8pt;
-            margin: 2px 0 0 0;
-            color: #4b5563;
-        }
-        /* Title */
-        .doc-title {
-            text-align: center;
-            margin: 10px 0;
-        }
-        .doc-title h3 {
-            font-size: 14pt;
-            font-weight: 800;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-decoration: underline;
-        }
-        .doc-title p {
-            margin: 2px 0 0 0;
-            font-size: 9.5pt;
-            font-weight: 600;
-            color: #374151;
-        }
-        /* Info Grid */
-        .info-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 15px;
-        }
-        .info-table td {
-            padding: 3px 5px;
-            vertical-align: top;
-        }
-        .info-label {
-            font-weight: 600;
-            width: 180px;
-            color: #374151;
-            font-size: 8.5pt;
-        }
-        .info-separator {
-            width: 10px;
-            text-align: center;
-            font-size: 8.5pt;
-        }
-        .info-value {
-            font-weight: 700;
-            font-size: 8.5pt;
-        }
-        /* Table Section Header */
-        .table-section-title {
-            font-size: 8.5pt;
-            font-weight: 800;
-            color: #1f2937;
-            margin: 10px 0 4px 0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        /* Details Table */
-        .details-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 15px;
-            font-size: 8pt;
-        }
-        .details-table th {
-            background-color: #f3f4f6;
-            color: #1f2937;
-            font-weight: 700;
-            border: 1px solid #1f2937;
-            padding: 5px 4px;
-            text-align: center;
-            text-transform: uppercase;
-            font-size: 7.5pt;
-        }
-        .details-table td {
-            border: 1px solid #1f2937;
-            padding: 5px 4px;
-            vertical-align: middle;
-        }
-        .details-table tr:nth-child(even) {
-            background-color: #f9fafb;
-        }
-        .text-center {
-            text-align: center;
-        }
-        .nik-text {
-            display: block;
-            font-size: 7pt;
-            color: #4b5563;
-            margin-top: 1px;
-            font-family: monospace;
-        }
-        /* Footer / Signatures */
-        .footer-section {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            page-break-inside: avoid;
-        }
-        .footer-section td {
-            vertical-align: top;
-            width: 33.33%;
-        }
-        .sig-container {
-            text-align: center;
-            font-size: 8.5pt;
-        }
-        .sig-space {
-            height: 55px;
-        }
-        .sig-name {
-            font-weight: 700;
-            text-decoration: underline;
-        }
-        .sig-title {
-            font-size: 8pt;
-            color: #4b5563;
-            margin-top: 2px;
-        }
         @media print {
-            body {
-                background-color: #fff;
-            }
-            .container {
-                border: 2px solid #000;
-            }
-            .kop-table {
-                border-bottom: 3px double #000;
-            }
-            .details-table th, .details-table td {
-                border: 1px solid #000;
-            }
+            @page { size: landscape; margin: 1cm; }
+            body { background: white !important; color: black !important; margin: 0; padding: 0; }
+            .print-btn { display: none !important; }
+            .details-table { page-break-inside: auto; border-collapse: collapse; width: 100%; }
+            tr { page-break-inside: avoid; page-break-after: auto; }
+            thead { display: table-header-group; }
         }
+        
+        /* Menggunakan font Times New Roman */
+        body { font-family: 'Times New Roman', Times, serif; padding: 2rem; max-width: 1100px; margin: auto; font-size: 9.5pt; color: #111827; }
+
+        .print-btn {
+            display: inline-block;
+            background-color: #0284c7;
+            color: white;
+            padding: 8px 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 10pt;
+            text-transform: uppercase;
+        }
+        .print-btn:hover { background-color: #0369a1; }
+
+        /* Title */
+        .doc-title { text-align: center; margin: 20px 0; }
+        .doc-title h3 { font-size: 14pt; font-weight: bold; margin: 0; text-transform: uppercase; letter-spacing: 2px; text-decoration: underline; }
+        .doc-title p { margin: 5px 0 0 0; font-size: 10pt; font-weight: bold; color: #111827; }
+
+        /* Info Grid */
+        .info-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 9.5pt; }
+        .info-table td { padding: 4px 5px; vertical-align: top; }
+        .info-label { font-weight: bold; width: 180px; }
+        .info-separator { width: 10px; text-align: center; }
+        .info-value { font-weight: bold; }
+
+        /* Table Section Header */
+        .table-section-title { font-size: 9.5pt; font-weight: bold; margin: 15px 0 5px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* Details Table */
+        .details-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 8.5pt; }
+        .details-table th, .details-table td { border: 1px solid #333; padding: 5px 6px; vertical-align: middle; }
+        .details-table th { background-color: #f3f4f6; font-weight: bold; text-align: center; text-transform: uppercase; }
+        
+        .text-center { text-align: center !important; }
+        .nik-text { display: block; font-size: 7.5pt; color: #4b5563; margin-top: 2px; font-family: monospace; }
+
+        /* Signatures */
+        .footer-section { width: 100%; margin-top: 30px; page-break-inside: avoid; border-collapse: collapse; border: none; }
+        .footer-section td { width: 33.33%; text-align: center; vertical-align: top; border: none !important; font-size: 9.5pt; padding: 0; }
+        .sig-space { height: 70px; }
+        .sig-name { font-weight: bold; text-decoration: underline; }
+        .sig-title { font-size: 9pt; color: #4b5563; margin-top: 3px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- Kop Surat / Letterhead -->
-    <table class="kop-table">
+    <table style="width: 100%; border-collapse: collapse; border: none; margin-bottom: 20px; border-bottom: 1px double #333; padding-bottom: 20px;">
         <tr>
             @if($profile->logo_path)
-                <td class="kop-logo">
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($profile->logo_path) }}" alt="Logo">
+                <td style="width: 80px; border: none; padding: 0 0 5px 0; vertical-align: middle;">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($profile->logo_path) }}" alt="Logo" style="height: 65px; max-width: 80px; display: block;">
                 </td>
             @endif
-            <td class="kop-text">
-                <h1>{{ $profile->gmit_name }}</h1>
-                <h2>{{ $profile->church_name }}</h2>
-                <p>{{ $profile->address }} | Telp: {{ $profile->phone }}</p>
+            <td style="border: none; padding: 0 0 5px 0; vertical-align: middle; text-align: left;">
+                <h1 style="margin: 0; font-size: 10pt; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">{{ $profile->gmit_name }}</h1>
+                <h2 style="margin: 2px 0 2px; font-size: 14pt; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">{{ $profile->church_name }}</h2>
+                <p style="margin: 2px 0 2px; font-size: 8.5pt; color: #4b5563;">{{ $profile->address }} | Telp: {{ $profile->phone }}</p>
             </td>
         </tr>
     </table>
 
-    <!-- Document Title -->
+    <div style="text-align: right; margin-bottom: 10px;">
+        <button class="print-btn" onclick="window.print()">Cetak PDF</button>
+    </div>
+
     <div class="doc-title">
         <h3>KARTU KELUARGA JEMAAT</h3>
         <p>No. KK: {{ $family->family_number }}</p>
     </div>
 
-    <!-- Family Info Header -->
     <table class="info-table">
         <tr>
             <td class="info-label">Nama Kepala Keluarga</td>
@@ -261,20 +127,19 @@
         </tr>
     </table>
 
-    <!-- Tabel I: DATA DEMOGRAFI & HUBUNGAN KELUARGA -->
     <div class="table-section-title">I. Data Demografi & Hubungan Keluarga</div>
     <table class="details-table">
         <thead>
             <tr>
-                <th style="width: 3%;" class="text-center">No</th>
+                <th style="width: 3%;">No</th>
                 <th style="width: 25%;">Nama Lengkap</th>
-                <th style="width: 5%;" class="text-center">L/P</th>
+                <th style="width: 5%;">L/P</th>
                 <th style="width: 17%;">Tempat / Tanggal Lahir</th>
-                <th style="width: 12%;" class="text-center">Hubungan Keluarga</th>
+                <th style="width: 12%;">Hubungan Keluarga</th>
                 <th style="width: 11%;">Pendidikan</th>
                 <th style="width: 11%;">Pekerjaan</th>
-                <th style="width: 8%;" class="text-center">Status Nikah</th>
-                <th style="width: 8%;" class="text-center">Status Jemaat</th>
+                <th style="width: 8%;">Status Nikah</th>
+                <th style="width: 8%;">Status Jemaat</th>
             </tr>
         </thead>
         <tbody>
@@ -308,16 +173,15 @@
         </tbody>
     </table>
 
-    <!-- Tabel II: DATA SAKRAMEN & ORANG TUA -->
     <div class="table-section-title">II. Data Sakramen & Orang Tua</div>
     <table class="details-table">
         <thead>
             <tr>
-                <th style="width: 3%;" class="text-center">No</th>
+                <th style="width: 3%;">No</th>
                 <th style="width: 20%;">Nama Lengkap</th>
-                <th style="width: 8%;" class="text-center">Tanggal Baptis</th>
+                <th style="width: 8%;">Tanggal Baptis</th>
                 <th style="width: 15%;">Gereja Tempat Baptis</th>
-                <th style="width: 8%;" class="text-center">Tanggal Sidi</th>
+                <th style="width: 8%;">Tanggal Sidi</th>
                 <th style="width: 15%;">Gereja Tempat Sidi</th>
                 <th style="width: 15%;">Nama Ayah</th>
                 <th style="width: 16%;">Nama Ibu</th>
@@ -351,33 +215,29 @@
         </tbody>
     </table>
 
-    <!-- Footer / Signatures -->
     <table class="footer-section">
         <tr>
             <td>
-                <div class="sig-container">
-                    <div>Mengetahui,</div>
-                    <div class="sig-title">Kepala Keluarga</div>
-                    <div class="sig-space"></div>
-                    <div class="sig-name">{{ $headOfFamilyName }}</div>
-                </div>
+                <div>Mengetahui,</div>
+                <div class="sig-title">Kepala Keluarga</div>
+                <div class="sig-space"></div>
+                <div class="sig-name">{{ $headOfFamilyName }}</div>
             </td>
             <td>
-                <!-- Spacer col -->
-            </td>
+                </td>
             <td>
-                <div class="sig-container">
-                    <div>Ditetapkan di: {{ str_replace('Jemaat ', '', $profile->church_name) }}</div>
-                    <div>Pada Tanggal: {{ \Illuminate\Support\Carbon::now()->isoFormat('D MMMM YYYY') }}</div>
-                    <div class="sig-title">Ketua Majelis Jemaat</div>
-                    <div class="sig-space"></div>
-                    <div class="sig-name">......................................................</div>
-                    <div class="sig-title">Pendeta / Pelayan Jemaat</div>
-                </div>
+                <div>Semarang, {{ \Illuminate\Support\Carbon::now()->isoFormat('D MMMM YYYY') }}</div>
+                <div class="sig-title">Ketua Majelis Jemaat</div>
+                <div class="sig-space"></div>
+                <div class="sig-name">{{ $profile->ketua_majelis ?? '......................................................' }}</div>
             </td>
         </tr>
     </table>
-</div>
 
+    <script>
+        window.onload = function() {
+            window.print();
+        }
+    </script>
 </body>
 </html>
