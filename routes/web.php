@@ -6,18 +6,69 @@ use App\Http\Controllers\FamilyPrintController;
 use App\Http\Controllers\PastoralReportController;
 
 Route::get('/', function () {
-    // Di sinilah nanti kita akan memanggil Controller untuk memuat berita & jadwal
-    // Untuk sementara, kita tampilkan halaman "Etalase" dasar (welcome)
-    return view('welcome'); 
+    // 1. Ambil 3 agenda terdekat yang akan datang
+    $agendas = \App\Models\Agenda::whereNotIn('status', ['completed', 'canceled'])
+                ->where('start_time', '>=', now())
+                ->orderBy('start_time', 'asc')
+                ->take(3)
+                ->get();
+
+    // 2. Ambil 3 berita terbaru yang berstatus 'published'
+    $posts = \App\Models\Post::with('category') // Eager loading relasi kategori
+                ->where('status', 'published')
+                ->orderBy('published_at', 'desc')
+                ->take(3)
+                ->get();
+
+    // Kirim data ke view welcome
+    return view('welcome', compact('agendas', 'posts'));
 });
 
-// Route::get('/', function () {
-//     if (auth()->check()) {
-//         return redirect('/admin');
-//     }
+// Rute untuk Indeks Berita (Daftar semua artikel)
+Route::get('/berita', function () {
+    // Kita gunakan paginate(9) agar pas dengan desain grid 3 kolom
+    $posts = \App\Models\Post::with('category')
+                ->where('status', 'published')
+                ->orderBy('published_at', 'desc')
+                ->paginate(9);
 
-//     return redirect('/admin/login');
-// });
+    return view('posts.index', compact('posts'));
+})->name('posts.index');
+
+// Rute untuk membaca detail berita berdasarkan slug
+Route::get('/berita/{post:slug}', function (\App\Models\Post $post) {
+    // Pastikan hanya berita yang di-publish yang bisa diakses
+    if ($post->status !== 'published') {
+        abort(404);
+    }
+    
+    return view('posts.show', compact('post'));
+})->name('posts.show');
+
+// Rute untuk Indeks Agenda
+Route::get('/agenda', function () {
+    // Ambil agenda yang akan datang, urutkan dari yang paling dekat
+    $agendas = \App\Models\Agenda::whereNotIn('status', ['completed', 'canceled'])
+                ->where('start_time', '>=', now())
+                ->orderBy('start_time', 'asc')
+                ->paginate(10);
+
+    return view('agendas.index', compact('agendas'));
+})->name('agendas.index');
+
+// Rute untuk Indeks Galeri
+Route::get('/galeri', function () {
+    // Tampilkan album terbaru lebih dulu
+    $galleries = \App\Models\Gallery::orderBy('created_at', 'desc')->paginate(9);
+
+    return view('galleries.index', compact('galleries'));
+})->name('galleries.index');
+
+// Rute untuk Arsip Khotbah
+Route::get('/khotbah', function () {
+    $sermons = \App\Models\Sermon::orderBy('sermon_date', 'desc')->paginate(10);
+    return view('sermons.index', compact('sermons'));
+})->name('sermons.index');
 
 Route::get('/admin/journals/{journal}/print', [JournalPrintController::class, 'print'])
     ->name('journal.print')
